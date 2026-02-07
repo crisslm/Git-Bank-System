@@ -9,10 +9,18 @@ public class BankSystem{
         } else{
             double total = user.getBalance() - value;
             user.setBalance(total);
-            System.out.println("Withdraw perfectly done!\nTou have: " + user.getBalance());
+            System.out.println("Withdraw perfectly done!\nou have: " + user.getBalance());
+            System.out.println("\nMoney taken sucessfully! ");
         }
     }
 
+    public static void receive(CurrentAccount user, double value){
+        double total = user.getBalance() + value;
+        user.setBalance(total);
+        System.out.println("Receive perfectly done!\nYou have: " + user.getBalance());
+    }
+
+    //User1 transfer to User2
     public static void transfer(CurrentAccount user1, CurrentAccount user2, double value){
         if(value > user1.getBalance()){
             System.out.println("Balance isn't enough!\nYou have: " + user1.getBalance());
@@ -25,7 +33,7 @@ public class BankSystem{
     }
 
     public static void viewBalance(CurrentAccount user){
-        System.out.println("Your balance: " + user.getBalance());
+        System.out.println("\nYour balance: R$" + user.getBalance());
     }
 
     public static String cancelAccount(ArrayList<CurrentAccount> list, CurrentAccount user, String Justify){
@@ -36,6 +44,15 @@ public class BankSystem{
     public static CurrentAccount findByUserName(ArrayList<CurrentAccount> list, String userName1){
         for(CurrentAccount account : list){
             if((account.getLogin().getUserName()).equals(userName1)){
+                return account;
+            }
+        }
+        return null; // Account not found
+    }
+
+    public static CurrentAccount findByAccountNumber(ArrayList<CurrentAccount> list, int accountNumber){
+        for(CurrentAccount account : list){
+            if(account.getAccountNumber() == accountNumber){
                 return account;
             }
         }
@@ -68,6 +85,11 @@ public class BankSystem{
         System.out.print("Enter here: ");
     }
 
+    public static void showMenuOptions(){
+        System.out.println("Actions availables: \n1)Withdraw\n2)Receive\n3)Transference\n4)Cancel account\n5)Exit\n"); //Maybe will be more options...
+        System.out.print("Enter here: ");
+    }
+
     public static void main(String [] args){
         Scanner sc = new Scanner(System.in);
 
@@ -80,7 +102,7 @@ public class BankSystem{
         while(true){
             switch(answerLoginOptions){
                 case 1: //Login
-                    System.out.print("Insert your login: ");
+                    System.out.print("Insert your user: ");
                     String userName2 = sc.next();
                     CurrentAccount actualUser = findByUserName(users, userName2);
                     if(actualUser == null){
@@ -89,8 +111,78 @@ public class BankSystem{
                         answerLoginOptions = sc.nextInt();
                         break;
                     } else{
-                        System.out.println("Welcome back, " + actualUser.getClientName() + "!");
+                        System.out.print("Put your password: ");
+                        String userPassword = sc.next();
+                        if(!userPassword.equals(actualUser.getLogin().getPassword())){
+                            System.out.println("\nWrong Password! Try again: \n");
+                            loginOptions();
+                            answerLoginOptions = sc.nextInt();
+                            break;
+                        } else{
+                            int menuOptions;
+                            System.out.println("Welcome back, " + actualUser.getClientName() + "!\n");
+                            viewBalance(actualUser);
+                            showMenuOptions();
+                            menuOptions = sc.nextInt();
+                            while(menuOptions != 99){
+                                switch(menuOptions){
+                                    case 1: //Withdraw
+                                        System.out.print("\nHow much would you like to take?: ");
+                                        double value = sc.nextDouble();
+                                        withdraw(actualUser, value);
+                                        System.out.println("\nYour actual balance: " + actualUser.getBalance() + "\n");
+                                        showMenuOptions();
+                                        menuOptions = sc.nextInt();
+
+                                        break;
+                                    
+                                    case 2: //Receive
+                                        System.out.print("\nHow much would you like to receive?:");
+                                        double value2 = sc.nextDouble();
+                                        receive(actualUser, value2);
+                                        System.out.println("\nMoney received sucessfully! ");
+                                        System.out.println("\nYour actual balance: " + actualUser.getBalance() + "\n");
+                                        showMenuOptions();
+                                        menuOptions = sc.nextInt();
+                                        break;
+
+                                    case 3: //Transfer
+                                        System.out.println("Put the account number\nthat will receive.\n");
+                                        System.out.print("Account number: ");
+                                        int accountNumber = sc.nextInt();
+                                        CurrentAccount accountToReceive = findByAccountNumber(users, accountNumber);
+                                        System.out.print("How much do you want to transfer: USD$");
+                                        double value3 = sc.nextDouble();
+                                        transfer(actualUser, accountToReceive, value3);
+                                        System.out.println("\nMoney transferred sucessfully! ");
+                                        System.out.println("\nYour actual balance: " + actualUser.getBalance() + "\n");
+
+                                        break;
+                                        
+                                    case 4: //Cancel Account
+                                        System.out.print("Tell us, why do you want to cancel your account?: ");
+                                        String justify = sc.next();
+                                        justify = cancelAccount(users, actualUser, justify);
+                                        System.out.println("\nAccount canceled sucessfully!\n ");
+                                        menuOptions = 99;
+                                        break;
+
+                                    case 5: //Exit
+                                        System.out.println("\nExiting... \n");
+                                        menuOptions = 99;
+                                        break;
+
+                                    default:
+                                        System.out.println("\nInvalid option, try again: ");
+                                        showMenuOptions();
+                                        menuOptions = sc.nextInt();
+                                        break;
+                                }
+                            }
+                        }
                     }
+                    loginOptions();
+                    answerLoginOptions = sc.nextInt();
                     break;
 
                 case 2: //Create a new account
@@ -122,7 +214,7 @@ public class BankSystem{
 
                     users.add(newAccount);
                     System.out.println("\nAccount succesfully created!\n");
-                    System.out.println("Know just login!\n");
+                    System.out.println("Now just login!\n");
                     loginOptions();
                     answerLoginOptions = sc.nextInt();
 
@@ -135,7 +227,6 @@ public class BankSystem{
                     break;
             }
         }
-
-
     }
 }
+
