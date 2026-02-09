@@ -2,15 +2,15 @@ public class CurrentAccount {
     private int accountNumber;
     private int agencyNumber;
     private String clientName;
-    private final String clientBirthday; 
+    private final String CLIENT_BIRTHDAY; 
     private double balance;
     private Login login;
 
-    public CurrentAccount(int accountNumber, int agencyNumber, String clientName, String clientBirthday, Login login){
+    public CurrentAccount(int accountNumber, int agencyNumber, String clientName, String CLIENT_BIRTHDAY, Login login){
         this.accountNumber = accountNumber;
         this.agencyNumber = agencyNumber;
         this.clientName = clientName;
-        this.clientBirthday = clientBirthday;
+        this.CLIENT_BIRTHDAY = CLIENT_BIRTHDAY;
         this.login = login;
         this.balance = 0;
     }
@@ -30,7 +30,7 @@ public class CurrentAccount {
     }
 
     public String getClientBirthday() {
-        return clientBirthday;
+        return CLIENT_BIRTHDAY;
     }
 
     public double getBalance() {

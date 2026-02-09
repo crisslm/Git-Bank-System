@@ -94,154 +94,162 @@ public class BankSystem{
         System.out.print("Enter here: ");
     }
 
+    /**
+     * @param args
+     */
     public static void main(String [] args){
-        Scanner sc = new Scanner(System.in);
+        try (Scanner sc = new Scanner(System.in)) {
+            ArrayList<CurrentAccount> users = new ArrayList<>(); // "DataBase"
 
-        ArrayList<CurrentAccount> users = new ArrayList<>(); // "DataBase"
-
-        int answerLoginOptions;
-        greetings();
-        loginOptions();
-        answerLoginOptions = sc.nextInt();
-        while(true){
-            switch(answerLoginOptions){
-                case 1: //Login
-                    System.out.print("Insert your user: ");
-                    String userName2 = sc.next();
-                    CurrentAccount actualUser = findByUserName(users, userName2);
-                    if(actualUser == null){
-                        System.out.println("User not found!\n");
-                        loginOptions();
-                        answerLoginOptions = sc.nextInt();
-                        break;
-                    } else{
-                        System.out.print("Put your password: ");
-                        String userPassword = sc.next();
-                        if(!userPassword.equals(actualUser.getLogin().getPassword())){
-                            System.out.println("\nWrong Password! Try again: \n");
+            int answerLoginOptions;
+            greetings();
+            loginOptions();
+            answerLoginOptions = sc.nextInt();
+            while(true){
+                switch(answerLoginOptions){
+                    case 1 -> {
+                        //Login
+                        System.out.print("Insert your user: ");
+                        String userName2 = sc.next();
+                        CurrentAccount actualUser = findByUserName(users, userName2);
+                        if(actualUser == null){
+                            System.out.println("User not found!\n");
                             loginOptions();
                             answerLoginOptions = sc.nextInt();
                             break;
                         } else{
-                            int menuOptions;
-                            System.out.println("Welcome back, " + actualUser.getClientName() + "!\n");
-                            viewAccountNumber(actualUser);
-                            viewBalance(actualUser);
-                            showMenuOptions();
-                            menuOptions = sc.nextInt();
-                            while(menuOptions != 99){
-                                switch(menuOptions){
-                                    case 1: //Withdraw
-                                        System.out.print("\nHow much would you like to take?: ");
-                                        double value = sc.nextDouble();
-                                        withdraw(actualUser, value);
-                                        System.out.println("\nYour actual balance: " + actualUser.getBalance() + "\n");
-                                        showMenuOptions();
-                                        menuOptions = sc.nextInt();
-
-                                        break;
-                                    
-                                    case 2: //Receive
-                                        System.out.print("\nHow much would you like to receive?:");
-                                        double value2 = sc.nextDouble();
-                                        receive(actualUser, value2);
-                                        System.out.println("\nMoney received sucessfully! ");
-                                        System.out.println("\nYour actual balance: " + actualUser.getBalance() + "\n");
-                                        showMenuOptions();
-                                        menuOptions = sc.nextInt();
-                                        break;
-
-                                    case 3: //Transfer
-                                        System.out.println("Put the account number\nthat will receive.\n");
-                                        System.out.print("Account number: ");
-                                        int accountNumber = sc.nextInt();
-                                        CurrentAccount accountToReceive = findByAccountNumber(users, accountNumber);
-                                        if(accountToReceive == null){
-                                            System.out.println("Account not found! ");
-                                            break;
+                            System.out.print("Put your password: ");
+                            String userPassword = sc.next();
+                            if(!userPassword.equals(actualUser.getLogin().getPassword())){
+                                System.out.println("\nWrong Password! Try again: \n");
+                                loginOptions();
+                                answerLoginOptions = sc.nextInt();
+                                break;
+                            } else{
+                                int menuOptions;
+                                System.out.println("Welcome back, " + actualUser.getClientName() + "!\n");
+                                viewAccountNumber(actualUser);
+                                viewBalance(actualUser);
+                                showMenuOptions();
+                                menuOptions = sc.nextInt();
+                                while(menuOptions != 99){
+                                    switch(menuOptions){
+                                        case 1 -> {
+                                            //Withdraw
+                                            System.out.print("\nHow much would you like to take?: ");
+                                            double value = sc.nextDouble();
+                                            withdraw(actualUser, value);
+                                            System.out.println("\nYour actual balance: " + actualUser.getBalance() + "\n");
+                                            showMenuOptions();
+                                            menuOptions = sc.nextInt();
                                         }
-                                        System.out.print("How much do you want to transfer: USD$");
-                                        double value3 = sc.nextDouble();
-                                        transfer(actualUser, accountToReceive, value3);
-                                        System.out.println("\nMoney transferred sucessfully! ");
-                                        System.out.println("\nYour actual balance: " + actualUser.getBalance() + "\n");
-
-                                        showMenuOptions();
-                                        menuOptions = sc.nextInt();
-
-                                        break;
                                         
-                                    case 4: //Cancel Account
-                                        System.out.print("Tell us, why do you want to cancel your account?: ");
-                                        String justify = sc.next();
-                                        justify = cancelAccount(users, actualUser, justify);
-                                        System.out.println("\nAccount canceled sucessfully!\n ");
-                                        menuOptions = 99;
-                                        break;
+                                        case 2 -> {
+                                            //Receive
+                                            System.out.print("\nHow much would you like to receive?:");
+                                            double value2 = sc.nextDouble();
+                                            receive(actualUser, value2);
+                                            System.out.println("\nMoney received sucessfully! ");
+                                            System.out.println("\nYour actual balance: " + actualUser.getBalance() + "\n");
+                                            showMenuOptions();
+                                            menuOptions = sc.nextInt();
+                                        }
 
-                                    case 5: //Exit
-                                        System.out.println("\nExiting... \n");
-                                        menuOptions = 99;
-                                        break;
+                                        case 3 -> {
+                                            //Transfer
+                                            System.out.println("Put the account number\nthat will receive.\n");
+                                            System.out.print("Account number: ");
+                                            int accountNumber = sc.nextInt();
+                                            CurrentAccount accountToReceive = findByAccountNumber(users, accountNumber);
+                                            if(accountToReceive == null){
+                                                System.out.println("Account not found! ");
+                                                break;
+                                            }
+                                            System.out.print("How much do you want to transfer: USD$");
+                                            double value3 = sc.nextDouble();
+                                            transfer(actualUser, accountToReceive, value3);
+                                            System.out.println("\nMoney transferred sucessfully! ");
+                                            System.out.println("\nYour actual balance: " + actualUser.getBalance() + "\n");
 
-                                    default:
-                                        System.out.println("\nInvalid option, try again: ");
-                                        showMenuOptions();
-                                        menuOptions = sc.nextInt();
-                                        break;
+                                            showMenuOptions();
+                                            menuOptions = sc.nextInt();
+                                        }
+                                            
+                                        case 4 -> {
+                                            //Cancel Account
+                                            System.out.print("Tell us, why do you want to cancel your account?: ");
+                                            String justify = sc.next();
+                                            justify = cancelAccount(users, actualUser, justify);
+                                            System.out.println("\nAccount canceled sucessfully!\n ");
+                                            System.out.println("Your justify: " + justify);
+                                            menuOptions = 99;
+                                        }
+
+                                        case 5 -> {
+                                            //Exit
+                                            System.out.println("\nExiting... \n");
+                                            menuOptions = 99;
+                                        }
+
+                                        default -> {
+                                            System.out.println("\nInvalid option, try again: ");
+                                            showMenuOptions();
+                                            menuOptions = sc.nextInt();
+                                        }
+                                    }
                                 }
                             }
                         }
-                    }
-                    loginOptions();
-                    answerLoginOptions = sc.nextInt();
-                    break;
-
-                case 2: //Create a new account
-                    String newUser;
-                    String newPassword;
-                    boolean sameUser;
-
-                    System.out.print("Create a new user: ");
-                    newUser = sc.next();
-                    sameUser = sameUsercheck(users, newUser);
-                    if(sameUser){
-                        System.out.print("This user already exists.\n");
-                        break;
+                        loginOptions();
+                        answerLoginOptions = sc.nextInt();
                     }
 
-                    System.out.print("Create a password: ");
-                    newPassword = sc.next();
-                    
-                    Login newLogin = new Login(newUser, newPassword);
+                    case 2 -> {
+                        //Create a new account
+                        String newUser;
+                        String newPassword;
+                        boolean sameUser;
 
-                    System.out.print("Put your name: ");
-                    String newName = sc.next();
+                        System.out.print("Create a new user: ");
+                        newUser = sc.next();
+                        sameUser = sameUsercheck(users, newUser);
+                        if(sameUser){
+                            System.out.print("This user already exists.\n");
+                            break;
+                        }
 
-                    System.out.print("What year were you born (dd/mm/yyyy): ");
-                    String date = sc.next();
+                        System.out.print("Create a password: ");
+                        newPassword = sc.next();
+                        
+                        Login newLogin = new Login(newUser, newPassword);
 
-                    int newAccountNumber = createAccountNumber();
-                    CurrentAccount sameAccountNumber = findByAccountNumber(users, newAccountNumber);
-                    while(sameAccountNumber != null){
-                        newAccountNumber = createAccountNumber();
-                        sameAccountNumber = findByAccountNumber(users, newAccountNumber);
-                    } 
-                    CurrentAccount newAccount = new CurrentAccount(newAccountNumber, 1001, newName, date, newLogin);
+                        System.out.print("Put your name: ");
+                        String newName = sc.next();
 
-                    users.add(newAccount);
-                    System.out.println("\nAccount succesfully created!\n");
-                    System.out.println("Now just login!\n");
-                    loginOptions();
-                    answerLoginOptions = sc.nextInt();
+                        System.out.print("What year were you born (dd/mm/yyyy): ");
+                        String date = sc.next();
 
-                    break;
+                        int newAccountNumber = createAccountNumber();
+                        CurrentAccount sameAccountNumber = findByAccountNumber(users, newAccountNumber);
+                        while(sameAccountNumber != null){
+                            newAccountNumber = createAccountNumber();
+                            sameAccountNumber = findByAccountNumber(users, newAccountNumber);
+                        } 
+                        CurrentAccount newAccount = new CurrentAccount(newAccountNumber, 1001, newName, date, newLogin);
 
-                default: 
-                    System.out.println("\nInvalid option, try again: ");
-                    loginOptions();
-                    answerLoginOptions = sc.nextInt();
-                    break;
+                        users.add(newAccount);
+                        System.out.println("\nAccount succesfully created!\n");
+                        System.out.println("Now just login!\n");
+                        loginOptions();
+                        answerLoginOptions = sc.nextInt();
+                    }
+
+                    default -> { 
+                        System.out.println("\nInvalid option, try again: ");
+                        loginOptions();
+                        answerLoginOptions = sc.nextInt();
+                    }
+                }
             }
         }
     }
