@@ -32,8 +32,12 @@ public class BankSystem{
         }
     }
 
+    public static void viewAccountNumber(CurrentAccount user){
+        System.out.println("\nYour account number: " + user.getAccountNumber());
+    }
+
     public static void viewBalance(CurrentAccount user){
-        System.out.println("\nYour balance: R$" + user.getBalance());
+        System.out.println("\nYour balance: R$" + user.getBalance() + "\n");
     }
 
     public static String cancelAccount(ArrayList<CurrentAccount> list, CurrentAccount user, String Justify){
@@ -121,6 +125,7 @@ public class BankSystem{
                         } else{
                             int menuOptions;
                             System.out.println("Welcome back, " + actualUser.getClientName() + "!\n");
+                            viewAccountNumber(actualUser);
                             viewBalance(actualUser);
                             showMenuOptions();
                             menuOptions = sc.nextInt();
@@ -151,11 +156,18 @@ public class BankSystem{
                                         System.out.print("Account number: ");
                                         int accountNumber = sc.nextInt();
                                         CurrentAccount accountToReceive = findByAccountNumber(users, accountNumber);
+                                        if(accountToReceive == null){
+                                            System.out.println("Account not found! ");
+                                            break;
+                                        }
                                         System.out.print("How much do you want to transfer: USD$");
                                         double value3 = sc.nextDouble();
                                         transfer(actualUser, accountToReceive, value3);
                                         System.out.println("\nMoney transferred sucessfully! ");
                                         System.out.println("\nYour actual balance: " + actualUser.getBalance() + "\n");
+
+                                        showMenuOptions();
+                                        menuOptions = sc.nextInt();
 
                                         break;
                                         
@@ -210,6 +222,11 @@ public class BankSystem{
                     String date = sc.next();
 
                     int newAccountNumber = createAccountNumber();
+                    CurrentAccount sameAccountNumber = findByAccountNumber(users, newAccountNumber);
+                    while(sameAccountNumber != null){
+                        newAccountNumber = createAccountNumber();
+                        sameAccountNumber = findByAccountNumber(users, newAccountNumber);
+                    } 
                     CurrentAccount newAccount = new CurrentAccount(newAccountNumber, 1001, newName, date, newLogin);
 
                     users.add(newAccount);
