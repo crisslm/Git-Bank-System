@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -6,7 +7,7 @@ public class BankSystem{
 
     public static void withdraw(CurrentAccount user, double value){
         if(value > user.getBalance()){
-            System.out.println("Balance isn't enough!\nYou have: " + user.getBalance());
+            System.out.println("Balance isn't enough!\n");
         } else{
             double total = user.getBalance() - value;
             user.setBalance(total);
@@ -38,7 +39,7 @@ public class BankSystem{
     }
 
     public static void viewBalance(CurrentAccount user){
-        System.out.println("\nYour balance: R$" + user.getBalance() + "\n");
+        System.out.println("\nYour balance: USD$" + user.getBalance() + "");
     }
 
     public static String cancelAccount(ArrayList<CurrentAccount> list, CurrentAccount user, String Justify){
@@ -97,6 +98,21 @@ public class BankSystem{
         System.out.print("Enter here: ");
     }
 
+    public static void cleanTerminal() {
+        try {
+            String os = System.getProperty("os.name").toLowerCase();
+
+            if (os.contains("win")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                new ProcessBuilder("clear").inheritIO().start().waitFor();
+            }
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e);
+        }
+}
+
+
     /**
      * @param args
      */
@@ -114,13 +130,15 @@ public class BankSystem{
                 }
                 catch(InputMismatchException e){
                     sc.next();
-                    System.out.println("\nWrong Input type, try again.\n\n");
+                    cleanTerminal();
+                    System.out.println("\nWrong Input type, try again.\n");
                 }
             }
             while(true){
                 switch(answerLoginOptions){
                     case 1 -> {
                         //Login
+                        cleanTerminal();
                         System.out.println("\n--------------------");
                         System.out.print("Insert your user: ");
                         String userName2 = sc.next();
@@ -131,11 +149,13 @@ public class BankSystem{
                                 try{
                                     loginOptions();
                                     answerLoginOptions = sc.nextInt();
+                                    cleanTerminal();
                                     break;
                                 }
                                 catch(InputMismatchException e){
                                     sc.next();
-                                    System.out.println("\nWrong Input type, try again.\n\n");
+                                    cleanTerminal();
+                                    System.out.println("\nWrong Input type, try again.\n");
                                 }
                             }
                             break;
@@ -148,105 +168,126 @@ public class BankSystem{
                                     try{
                                         loginOptions();
                                         answerLoginOptions = sc.nextInt();
+                                        cleanTerminal();
                                         break;
                                     }
                                     catch(InputMismatchException e){
                                         sc.next();
+                                        cleanTerminal();
                                         System.out.println("\nWrong Input type, try again.\n\n");
                                     }
                                 }
                                 break;
                             } else{
+                                cleanTerminal();
                                 int menuOptions;
-                                System.out.println("\nWelcome back, " + actualUser.getClientName() + "!\n");
+                                System.out.println("\nWelcome back, " + actualUser.getClientName() + "!");
                                 viewAccountNumber(actualUser);
                                 viewBalance(actualUser);
                                 while(true){
                                     try {
                                         showMenuOptions();
                                         menuOptions = sc.nextInt();
+                                        cleanTerminal();
                                         break;
                                     }
                                     catch(InputMismatchException e){
                                         sc.next();
-                                        System.out.println("\nWrong input type, try again.\n\n");
+                                        cleanTerminal();
+                                        System.out.println("\nWrong input type, try again.\n");
                                     }
                                 }
                                 while(menuOptions != 99){
                                     switch(menuOptions){
                                         case 1 -> {
                                             //Withdraw
+                                            cleanTerminal();
                                             System.out.print("\nHow much would you like to take?: ");
                                             double value = sc.nextDouble();
                                             withdraw(actualUser, value);
-                                            System.out.println("\nYour actual balance: " + actualUser.getBalance() + "\n");
+                                            viewAccountNumber(actualUser);
+                                            viewBalance(actualUser);
                                             while(true){
                                                 try {
                                                     showMenuOptions();
                                                     menuOptions = sc.nextInt();
+                                                    cleanTerminal();
                                                     break;
                                                 } 
                                                 catch(InputMismatchException e){
                                                     sc.next();
-                                                    System.out.println("\nWrong input type, try again.\n\n");
+                                                    cleanTerminal();
+                                                    System.out.println("\nWrong input type, try again.\n");
                                                 }
                                             }
                                         }
                                         
                                         case 2 -> {
                                             //Receive
-                                            System.out.print("\nHow much would you like to receive?:");
+                                            cleanTerminal();
+                                            System.out.print("\nHow much would you like to receive?: ");
                                             double value2 = sc.nextDouble();
                                             receive(actualUser, value2);
+                                            cleanTerminal();
                                             System.out.println("\nMoney received sucessfully! ");
-                                            System.out.println("\nYour actual balance: " + actualUser.getBalance() + "\n");
+                                            viewAccountNumber(actualUser);
+                                            viewBalance(actualUser);
                                             while(true){
                                                 try {
                                                     showMenuOptions();
                                                     menuOptions = sc.nextInt();
+                                                    cleanTerminal();
                                                     break;
                                                 } 
                                                 catch(InputMismatchException e){
                                                     sc.next();
-                                                    System.out.println("\nWrong input type, try again.\n\n");
+                                                    cleanTerminal();
+                                                    System.out.println("\nWrong input type, try again.\n");
                                                 }
                                             }
                                         }
 
                                         case 3 -> {
                                             //Transfer
+                                            cleanTerminal();
                                             System.out.println("Put the account number\nthat will receive.\n");
                                             System.out.print("Account number: ");
                                             int accountNumber = sc.nextInt();
                                             CurrentAccount accountToReceive = findByAccountNumber(users, accountNumber);
                                             if(accountToReceive == null){
-                                                System.out.println("Account not found! ");
-                                                break;
+                                                cleanTerminal();
+                                                System.out.println("Account not found! ");                                                
+                                                break;                    
                                             }
                                             System.out.print("How much do you want to transfer: USD$");
                                             double value3 = sc.nextDouble();
                                             transfer(actualUser, accountToReceive, value3);
                                             System.out.println("\nMoney transferred sucessfully! ");
-                                            System.out.println("\nYour actual balance: " + actualUser.getBalance() + "\n");
-
+                                            viewAccountNumber(actualUser);
+                                            viewBalance(actualUser);
                                             while(true){
                                                 try {
                                                     showMenuOptions();
                                                     menuOptions = sc.nextInt();
+                                                    cleanTerminal();
                                                     break;
                                                 } 
                                                 catch(InputMismatchException e){
                                                     sc.next();
-                                                    System.out.println("\nWrong input type, try again.\n\n");
+                                                    cleanTerminal();
+                                                    System.out.println("\nWrong input type, try again.\n");
                                                 }
                                             }
                                         }
                                             
                                         case 4 -> {
                                             //Cancel Account
+                                            cleanTerminal();
                                             System.out.print("Tell us, why do you want to cancel your account?: ");
-                                            String justify = sc.next();
+                                            sc.next();
+                                            String justify = sc.nextLine();
                                             justify = cancelAccount(users, actualUser, justify);
+                                            cleanTerminal();
                                             System.out.println("\nAccount canceled sucessfully!\n ");
                                             System.out.println("Your justify: " + justify);
                                             menuOptions = 99;
@@ -254,21 +295,25 @@ public class BankSystem{
 
                                         case 5 -> {
                                             //Exit
+                                            cleanTerminal();
                                             System.out.println("\nExiting... \n");
                                             menuOptions = 99;
                                         }
 
                                         default -> {
+                                            cleanTerminal();
                                             System.out.println("\nInvalid option, try again: ");
                                             while(true){
                                                 try {
                                                     showMenuOptions();
                                                     menuOptions = sc.nextInt();
+                                                    cleanTerminal();
                                                     break;
                                                 } 
                                                 catch(InputMismatchException e){
                                                     sc.next();
-                                                    System.out.println("\nWrong input type, try again.\n\n");
+                                                    cleanTerminal();
+                                                    System.out.println("\nWrong input type, try again.\n");
                                                 }
                                             }
                                         }
@@ -280,26 +325,43 @@ public class BankSystem{
                             try{
                                 loginOptions();
                                 answerLoginOptions = sc.nextInt();
+                                cleanTerminal();
                                 break;
                             }
                             catch(InputMismatchException e){
                                 sc.next();
-                                System.out.println("\nWrong Input type, try again.\n\n");
+                                cleanTerminal();
+                                System.out.println("\nWrong Input type, try again.\n");
                             }
                         }
                     }
 
                     case 2 -> {
                         //Create a new account
+                        cleanTerminal();
                         String newUser;
                         String newPassword;
                         boolean sameUser;
-                        System.out.println("\n-------------------");
+                        System.out.println("\n--------------------");
                         System.out.print("Create a new user: ");
                         newUser = sc.next();
                         sameUser = sameUsercheck(users, newUser);
                         if(sameUser){
-                            System.out.print("This user already exists.\n");
+                            cleanTerminal();
+                            System.out.print("This user already exists. Try again.\n");
+                            while(true){
+                            try{
+                                loginOptions();
+                                answerLoginOptions = sc.nextInt();
+                                cleanTerminal();
+                                break;
+                            }
+                            catch(InputMismatchException e){
+                                sc.next();
+                                cleanTerminal();
+                                System.out.println("\nWrong Input type, try again.\n");
+                            }
+                        }
                             break;
                         }
 
@@ -308,7 +370,7 @@ public class BankSystem{
                         
                         Login newLogin = new Login(newUser, newPassword);
 
-                        System.out.print("Put your name: ");
+                        System.out.print("How would you like to be called?: ");
                         String newName = sc.next();
 
                         System.out.print("What year were you born (dd/mm/yyyy): ");
@@ -323,17 +385,19 @@ public class BankSystem{
                         CurrentAccount newAccount = new CurrentAccount(newAccountNumber, 1001, newName, date, newLogin);
 
                         users.add(newAccount);
+                        cleanTerminal();
                         System.out.println("\nAccount succesfully created!\n");
                         System.out.println("Now just login!\n");
                         while(true){
                             try{
                                 loginOptions();
                                 answerLoginOptions = sc.nextInt();
+                                cleanTerminal();
                                 break;
                             }
                             catch(InputMismatchException e){
                                 sc.next();
-                                System.out.println("\nWrong Input type, try again.\n\n");
+                                System.out.println("\nWrong Input type, try again.\n");
                             }
                         }
                     }
@@ -344,11 +408,13 @@ public class BankSystem{
                             try{
                                 loginOptions();
                                 answerLoginOptions = sc.nextInt();
+                                cleanTerminal();
                                 break;
                             }
                             catch(InputMismatchException e){
                                 sc.next();
-                                System.out.println("\nWrong Input type, try again.\n\n");
+                                cleanTerminal();
+                                System.out.println("\nWrong Input type, try again.\n");
                             }
                         }
                     }
