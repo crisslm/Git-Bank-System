@@ -86,11 +86,13 @@ public class BankSystem{
     }
 
     public static void loginOptions(){
+        System.out.println("----------------------");
         System.out.println("Choose an option bellow: \n1)Login.\n2)Create a new account.\n");
         System.out.print("Enter here: ");
     }
 
     public static void showMenuOptions(){
+        System.out.println("-----------------------");
         System.out.println("Actions availables: \n1)Withdraw\n2)Receive\n3)Transference\n4)Cancel account\n5)Exit\n"); //Maybe will be more options...
         System.out.print("Enter here: ");
     }
@@ -155,11 +157,20 @@ public class BankSystem{
                                 break;
                             } else{
                                 int menuOptions;
-                                System.out.println("Welcome back, " + actualUser.getClientName() + "!\n");
+                                System.out.println("\nWelcome back, " + actualUser.getClientName() + "!\n");
                                 viewAccountNumber(actualUser);
                                 viewBalance(actualUser);
-                                showMenuOptions();
-                                menuOptions = sc.nextInt();
+                                while(true){
+                                    try {
+                                        showMenuOptions();
+                                        menuOptions = sc.nextInt();
+                                        break;
+                                    }
+                                    catch(InputMismatchException e){
+                                        sc.next();
+                                        System.out.println("\nWrong input type, try again.\n\n");
+                                    }
+                                }
                                 while(menuOptions != 99){
                                     switch(menuOptions){
                                         case 1 -> {
@@ -283,7 +294,7 @@ public class BankSystem{
                         String newPassword;
                         boolean sameUser;
 
-                        System.out.print("Create a new user: ");
+                        System.out.print("\nCreate a new user: ");
                         newUser = sc.next();
                         sameUser = sameUsercheck(users, newUser);
                         if(sameUser){
