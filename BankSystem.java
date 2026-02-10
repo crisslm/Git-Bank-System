@@ -86,7 +86,7 @@ public class BankSystem{
     }
 
     public static void loginOptions(){
-        System.out.println("----------------------");
+        System.out.println("------------------------");
         System.out.println("Choose an option bellow: \n1)Login.\n2)Create a new account.\n");
         System.out.print("Enter here: ");
     }
@@ -121,6 +121,7 @@ public class BankSystem{
                 switch(answerLoginOptions){
                     case 1 -> {
                         //Login
+                        System.out.println("\n--------------------");
                         System.out.print("Insert your user: ");
                         String userName2 = sc.next();
                         CurrentAccount actualUser = findByUserName(users, userName2);
@@ -293,8 +294,8 @@ public class BankSystem{
                         String newUser;
                         String newPassword;
                         boolean sameUser;
-
-                        System.out.print("\nCreate a new user: ");
+                        System.out.println("\n-------------------");
+                        System.out.print("Create a new user: ");
                         newUser = sc.next();
                         sameUser = sameUsercheck(users, newUser);
                         if(sameUser){
