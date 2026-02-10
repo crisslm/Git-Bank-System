@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class BankSystem{
@@ -103,8 +104,17 @@ public class BankSystem{
 
             int answerLoginOptions;
             greetings();
-            loginOptions();
-            answerLoginOptions = sc.nextInt();
+            while(true){
+                try{
+                    loginOptions();
+                    answerLoginOptions = sc.nextInt();
+                    break;
+                }
+                catch(InputMismatchException e){
+                    sc.next();
+                    System.out.println("\nWrong Input type, try again.\n\n");
+                }
+            }
             while(true){
                 switch(answerLoginOptions){
                     case 1 -> {
@@ -114,16 +124,34 @@ public class BankSystem{
                         CurrentAccount actualUser = findByUserName(users, userName2);
                         if(actualUser == null){
                             System.out.println("User not found!\n");
-                            loginOptions();
-                            answerLoginOptions = sc.nextInt();
+                            while(true){
+                                try{
+                                    loginOptions();
+                                    answerLoginOptions = sc.nextInt();
+                                    break;
+                                }
+                                catch(InputMismatchException e){
+                                    sc.next();
+                                    System.out.println("\nWrong Input type, try again.\n\n");
+                                }
+                            }
                             break;
                         } else{
                             System.out.print("Put your password: ");
                             String userPassword = sc.next();
                             if(!userPassword.equals(actualUser.getLogin().getPassword())){
                                 System.out.println("\nWrong Password! Try again: \n");
-                                loginOptions();
-                                answerLoginOptions = sc.nextInt();
+                                while(true){
+                                    try{
+                                        loginOptions();
+                                        answerLoginOptions = sc.nextInt();
+                                        break;
+                                    }
+                                    catch(InputMismatchException e){
+                                        sc.next();
+                                        System.out.println("\nWrong Input type, try again.\n\n");
+                                    }
+                                }
                                 break;
                             } else{
                                 int menuOptions;
@@ -140,8 +168,17 @@ public class BankSystem{
                                             double value = sc.nextDouble();
                                             withdraw(actualUser, value);
                                             System.out.println("\nYour actual balance: " + actualUser.getBalance() + "\n");
-                                            showMenuOptions();
-                                            menuOptions = sc.nextInt();
+                                            while(true){
+                                                try {
+                                                    showMenuOptions();
+                                                    menuOptions = sc.nextInt();
+                                                    break;
+                                                } 
+                                                catch(InputMismatchException e){
+                                                    sc.next();
+                                                    System.out.println("\nWrong input type, try again.\n\n");
+                                                }
+                                            }
                                         }
                                         
                                         case 2 -> {
@@ -151,8 +188,17 @@ public class BankSystem{
                                             receive(actualUser, value2);
                                             System.out.println("\nMoney received sucessfully! ");
                                             System.out.println("\nYour actual balance: " + actualUser.getBalance() + "\n");
-                                            showMenuOptions();
-                                            menuOptions = sc.nextInt();
+                                            while(true){
+                                                try {
+                                                    showMenuOptions();
+                                                    menuOptions = sc.nextInt();
+                                                    break;
+                                                } 
+                                                catch(InputMismatchException e){
+                                                    sc.next();
+                                                    System.out.println("\nWrong input type, try again.\n\n");
+                                                }
+                                            }
                                         }
 
                                         case 3 -> {
@@ -171,8 +217,17 @@ public class BankSystem{
                                             System.out.println("\nMoney transferred sucessfully! ");
                                             System.out.println("\nYour actual balance: " + actualUser.getBalance() + "\n");
 
-                                            showMenuOptions();
-                                            menuOptions = sc.nextInt();
+                                            while(true){
+                                                try {
+                                                    showMenuOptions();
+                                                    menuOptions = sc.nextInt();
+                                                    break;
+                                                } 
+                                                catch(InputMismatchException e){
+                                                    sc.next();
+                                                    System.out.println("\nWrong input type, try again.\n\n");
+                                                }
+                                            }
                                         }
                                             
                                         case 4 -> {
@@ -193,15 +248,33 @@ public class BankSystem{
 
                                         default -> {
                                             System.out.println("\nInvalid option, try again: ");
-                                            showMenuOptions();
-                                            menuOptions = sc.nextInt();
+                                            while(true){
+                                                try {
+                                                    showMenuOptions();
+                                                    menuOptions = sc.nextInt();
+                                                    break;
+                                                } 
+                                                catch(InputMismatchException e){
+                                                    sc.next();
+                                                    System.out.println("\nWrong input type, try again.\n\n");
+                                                }
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
-                        loginOptions();
-                        answerLoginOptions = sc.nextInt();
+                        while(true){
+                            try{
+                                loginOptions();
+                                answerLoginOptions = sc.nextInt();
+                                break;
+                            }
+                            catch(InputMismatchException e){
+                                sc.next();
+                                System.out.println("\nWrong Input type, try again.\n\n");
+                            }
+                        }
                     }
 
                     case 2 -> {
@@ -240,14 +313,32 @@ public class BankSystem{
                         users.add(newAccount);
                         System.out.println("\nAccount succesfully created!\n");
                         System.out.println("Now just login!\n");
-                        loginOptions();
-                        answerLoginOptions = sc.nextInt();
+                        while(true){
+                            try{
+                                loginOptions();
+                                answerLoginOptions = sc.nextInt();
+                                break;
+                            }
+                            catch(InputMismatchException e){
+                                sc.next();
+                                System.out.println("\nWrong Input type, try again.\n\n");
+                            }
+                        }
                     }
 
                     default -> { 
                         System.out.println("\nInvalid option, try again: ");
-                        loginOptions();
-                        answerLoginOptions = sc.nextInt();
+                        while(true){
+                            try{
+                                loginOptions();
+                                answerLoginOptions = sc.nextInt();
+                                break;
+                            }
+                            catch(InputMismatchException e){
+                                sc.next();
+                                System.out.println("\nWrong Input type, try again.\n\n");
+                            }
+                        }
                     }
                 }
             }
