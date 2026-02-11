@@ -31,6 +31,7 @@ public class BankSystem{
             double balanceUser2 = user2.getBalance() + value;
             user1.setBalance(balanceUser1);
             user2.setBalance(balanceUser2);
+            System.out.println("\nMoney transferred sucessfully! ");
         }
     }
 
@@ -279,7 +280,11 @@ public class BankSystem{
                                                     System.out.println("Is that the correct account?\n[1]Yes\n[2]No.");
                                                     System.out.print("Enter here: ");
                                                     answer5 = sc.nextInt();
-                                                    break;
+                                                    if(answer5 != 1 && answer5 != 2){
+                                                        System.out.println("Invalid Option. Try again");
+                                                    } else{
+                                                        break;
+                                                    }
                                                 } catch (InputMismatchException e){
                                                     cleanTerminal();
                                                     System.out.println("\nWrong input type. Try again\n");
@@ -303,10 +308,10 @@ public class BankSystem{
                                                 }
                                                 break;
                                             }
+                                            if(answer5 == 1) cleanTerminal();
                                             System.out.print("\nHow much do you want to transfer: USD$");
                                             double value3 = sc.nextDouble();
                                             transfer(actualUser, accountToReceive, value3);
-                                            System.out.println("\nMoney transferred sucessfully! ");
                                             viewAccountNumber(actualUser);
                                             viewBalance(actualUser);
                                             while(true){
