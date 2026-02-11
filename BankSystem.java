@@ -256,10 +256,54 @@ public class BankSystem{
                                             CurrentAccount accountToReceive = findByAccountNumber(users, accountNumber);
                                             if(accountToReceive == null){
                                                 cleanTerminal();
-                                                System.out.println("Account not found! ");                                                
+                                                System.out.println("Account not found! ");  
+                                                while(true){
+                                                    try {
+                                                        showMenuOptions();
+                                                        menuOptions = sc.nextInt();
+                                                        cleanTerminal();
+                                                        break;
+                                                    } 
+                                                    catch(InputMismatchException e){
+                                                        sc.next();
+                                                        cleanTerminal();
+                                                        System.out.println("\nWrong input type, try again.\n");
+                                                    } 
+                                                }                                            
                                                 break;                    
                                             }
-                                            System.out.print("How much do you want to transfer: USD$");
+                                            System.out.println("Account owner: " + accountToReceive.getClientName());
+                                            int answer5;
+                                            while(true){
+                                                try {
+                                                    System.out.println("Is that the correct account?\n[1]Yes\n[2]No.");
+                                                    System.out.print("Enter here: ");
+                                                    answer5 = sc.nextInt();
+                                                    break;
+                                                } catch (InputMismatchException e){
+                                                    cleanTerminal();
+                                                    System.out.println("\nWrong input type. Try again\n");
+                                                }
+                                            }
+                                            if(answer5 == 2){
+                                                while(true){
+                                                    try {
+                                                        cleanTerminal();
+                                                        viewAccountNumber(actualUser);
+                                                        viewBalance(actualUser);
+                                                        showMenuOptions();
+                                                        menuOptions = sc.nextInt();
+                                                        break;
+                                                    } 
+                                                    catch(InputMismatchException e){
+                                                        sc.next();
+                                                        cleanTerminal();
+                                                        System.out.println("\nWrong input type, try again.\n");
+                                                    }
+                                                }
+                                                break;
+                                            }
+                                            System.out.print("\nHow much do you want to transfer: USD$");
                                             double value3 = sc.nextDouble();
                                             transfer(actualUser, accountToReceive, value3);
                                             System.out.println("\nMoney transferred sucessfully! ");
