@@ -109,7 +109,7 @@ public class BankSystem{
                 new ProcessBuilder("clear").inheritIO().start().waitFor();
             }
         } catch (IOException | InterruptedException e) {
-            System.out.println(e);
+            System.err.println(e);
         }
 }
 
@@ -132,7 +132,7 @@ public class BankSystem{
                 catch(InputMismatchException e){
                     sc.next();
                     cleanTerminal();
-                    System.out.println("\nWrong Input type, try again.\n");
+                    System.err.println("\nWrong Input type, try again.\n");
                 }
             }
             while(true){
@@ -156,7 +156,7 @@ public class BankSystem{
                                 catch(InputMismatchException e){
                                     sc.next();
                                     cleanTerminal();
-                                    System.out.println("\nWrong Input type, try again.\n");
+                                    System.err.println("\nWrong Input type, try again.\n");
                                 }
                             }
                             break;
@@ -175,7 +175,7 @@ public class BankSystem{
                                     catch(InputMismatchException e){
                                         sc.next();
                                         cleanTerminal();
-                                        System.out.println("\nWrong Input type, try again.\n\n");
+                                        System.err.println("\nWrong Input type, try again.\n\n");
                                     }
                                 }
                                 break;
@@ -195,7 +195,7 @@ public class BankSystem{
                                     catch(InputMismatchException e){
                                         sc.next();
                                         cleanTerminal();
-                                        System.out.println("\nWrong input type, try again.\n");
+                                        System.err.println("\nWrong input type, try again.\n");
                                     }
                                 }
                                 while(menuOptions != 99){
@@ -218,7 +218,7 @@ public class BankSystem{
                                                 catch(InputMismatchException e){
                                                     sc.next();
                                                     cleanTerminal();
-                                                    System.out.println("\nWrong input type, try again.\n");
+                                                    System.err.println("\nWrong input type, try again.\n");
                                                 }
                                             }
                                         }
@@ -243,7 +243,7 @@ public class BankSystem{
                                                 catch(InputMismatchException e){
                                                     sc.next();
                                                     cleanTerminal();
-                                                    System.out.println("\nWrong input type, try again.\n");
+                                                    System.err.println("\nWrong input type, try again.\n");
                                                 }
                                             }
                                         }
@@ -268,7 +268,7 @@ public class BankSystem{
                                                     catch(InputMismatchException e){
                                                         sc.next();
                                                         cleanTerminal();
-                                                        System.out.println("\nWrong input type, try again.\n");
+                                                        System.err.println("\nWrong input type, try again.\n");
                                                     } 
                                                 }                                            
                                                 break;                    
@@ -281,13 +281,13 @@ public class BankSystem{
                                                     System.out.print("Enter here: ");
                                                     answer5 = sc.nextInt();
                                                     if(answer5 != 1 && answer5 != 2){
-                                                        System.out.println("Invalid Option. Try again");
+                                                        System.err.println("Invalid Option. Try again");
                                                     } else{
                                                         break;
                                                     }
                                                 } catch (InputMismatchException e){
                                                     cleanTerminal();
-                                                    System.out.println("\nWrong input type. Try again\n");
+                                                    System.err.println("\nWrong input type. Try again\n");
                                                 }
                                             }
                                             if(answer5 == 2){
@@ -303,7 +303,7 @@ public class BankSystem{
                                                     catch(InputMismatchException e){
                                                         sc.next();
                                                         cleanTerminal();
-                                                        System.out.println("\nWrong input type, try again.\n");
+                                                        System.err.println("\nWrong input type, try again.\n");
                                                     }
                                                 }
                                                 break;
@@ -324,7 +324,7 @@ public class BankSystem{
                                                 catch(InputMismatchException e){
                                                     sc.next();
                                                     cleanTerminal();
-                                                    System.out.println("\nWrong input type, try again.\n");
+                                                    System.err.println("\nWrong input type, try again.\n");
                                                 }
                                             }
                                         }
@@ -351,7 +351,7 @@ public class BankSystem{
 
                                         default -> {
                                             cleanTerminal();
-                                            System.out.println("\nInvalid option, try again: ");
+                                            System.err.println("\nInvalid option, try again: ");
                                             while(true){
                                                 try {
                                                     showMenuOptions();
@@ -362,7 +362,7 @@ public class BankSystem{
                                                 catch(InputMismatchException e){
                                                     sc.next();
                                                     cleanTerminal();
-                                                    System.out.println("\nWrong input type, try again.\n");
+                                                    System.err.println("\nWrong input type, try again.\n");
                                                 }
                                             }
                                         }
@@ -380,7 +380,7 @@ public class BankSystem{
                             catch(InputMismatchException e){
                                 sc.next();
                                 cleanTerminal();
-                                System.out.println("\nWrong Input type, try again.\n");
+                                System.err.println("\nWrong Input type, try again.\n");
                             }
                         }
                     }
@@ -408,7 +408,7 @@ public class BankSystem{
                             catch(InputMismatchException e){
                                 sc.next();
                                 cleanTerminal();
-                                System.out.println("\nWrong Input type, try again.\n");
+                                System.err.println("\nWrong Input type, try again.\n");
                             }
                         }
                             break;
@@ -446,13 +446,13 @@ public class BankSystem{
                             }
                             catch(InputMismatchException e){
                                 sc.next();
-                                System.out.println("\nWrong Input type, try again.\n");
+                                System.err.println("\nWrong Input type, try again.\n");
                             }
                         }
                     }
 
                     default -> { 
-                        System.out.println("\nInvalid option, try again: ");
+                        System.err.println("\nInvalid option, try again: ");
                         while(true){
                             try{
                                 loginOptions();
@@ -463,7 +463,7 @@ public class BankSystem{
                             catch(InputMismatchException e){
                                 sc.next();
                                 cleanTerminal();
-                                System.out.println("\nWrong Input type, try again.\n");
+                                System.err.println("\nWrong Input type, try again.\n");
                             }
                         }
                     }
