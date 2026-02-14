@@ -40,7 +40,7 @@ public class BankSystem{
     }
 
     public static void viewBalance(CurrentAccount user){
-        System.out.println("\nYour balance: USD$" + user.getBalance() + "");
+        System.out.printf("\nYour balance: USD$%.2f\n", user.getBalance());
     }
 
     public static String cancelAccount(ArrayList<CurrentAccount> list, CurrentAccount user, String Justify){
@@ -251,9 +251,19 @@ public class BankSystem{
                                         case 3 -> {
                                             //Transfer
                                             cleanTerminal();
-                                            System.out.println("Put the account number\nthat will receive.\n");
-                                            System.out.print("Account number: ");
-                                            int accountNumber = sc.nextInt();
+                                            int accountNumber;
+                                            while(true){
+                                                try {
+                                                    System.out.println("\nPut the account number\nthat will receive.\n");
+                                                    System.out.print("Account number: ");
+                                                    accountNumber = sc.nextInt();                                                    
+                                                    break;
+                                                } catch (InputMismatchException e){
+                                                    sc.next();
+                                                    cleanTerminal();
+                                                    System.err.println("Wrong input type!. Try again.\n");
+                                                }
+                                            }
                                             CurrentAccount accountToReceive = findByAccountNumber(users, accountNumber);
                                             if(accountToReceive == null){
                                                 cleanTerminal();
@@ -416,11 +426,12 @@ public class BankSystem{
 
                         System.out.print("Create a password: ");
                         newPassword = sc.next();
+                        sc.nextLine();
                         
                         Login newLogin = new Login(newUser, newPassword);
 
                         System.out.print("How would you like to be called?: ");
-                        String newName = sc.next();
+                        String newName = sc.nextLine();
 
                         System.out.print("What year were you born (dd/mm/yyyy): ");
                         String date = sc.next();
