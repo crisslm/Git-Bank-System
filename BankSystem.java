@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -6,13 +7,13 @@ import java.util.Scanner;
 public class BankSystem{
 
     public static void withdraw(CurrentAccount user, double value){
-        if(value > user.getBalance()){
-            System.out.println("Balance isn't enough!\n");
-        } else{
+        if(value <= user.getBalance()){
             double total = user.getBalance() - value;
             user.setBalance(total);
             System.out.println("Withdraw perfectly done!\nou have: " + user.getBalance());
             System.out.println("\nMoney taken sucessfully! ");
+        } else{
+            System.out.println("Balance isn't enough!\n");
         }
     }
 
@@ -78,8 +79,7 @@ public class BankSystem{
     public static int createAccountNumber(){
         int min = 1;
         int max = 1000000000;
-        int randomIntInRange = (int)(Math.random() * (max - min + 1) + min);
-        return randomIntInRange;
+        return (int)(Math.random() * (max - min + 1) + min);
     }
     
     public static void greetings(){
@@ -100,23 +100,26 @@ public class BankSystem{
     }
 
     public static void cleanTerminal() {
-        try {
-            String os = System.getProperty("os.name").toLowerCase();
+       try {
+        String os = System.getProperty("os.name");
 
-            if (os.contains("win")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                new ProcessBuilder("clear").inheritIO().start().waitFor();
-            }
-        } catch (IOException | InterruptedException e) {
-            System.err.println(e);
+        if (os.contains("Windows")) {
+            new ProcessBuilder("cmd", "/c", "cls")
+                    .inheritIO()
+                    .start()
+                    .waitFor();
+        } else {
+            new ProcessBuilder("clear")
+                    .inheritIO()
+                    .start()
+                    .waitFor();
         }
+    } catch (IOException | InterruptedException e) {
+        System.out.println("Não foi possível limpar o console.");
+    }
 }
 
 
-    /**
-     * @param args
-     */
     public static void main(String [] args){
         try (Scanner sc = new Scanner(System.in)) {
             ArrayList<CurrentAccount> users = new ArrayList<>(); // "DataBase"
@@ -203,8 +206,25 @@ public class BankSystem{
                                         case 1 -> {
                                             //Withdraw
                                             cleanTerminal();
-                                            System.out.print("\nHow much would you like to take?: ");
-                                            double value = sc.nextDouble();
+                                            Double value;
+                                            while(true){
+                                                try {
+                                                    System.out.print("\nHow much would you like to take?: ");
+                                                    value = sc.nextDouble();
+                                                    value = value * 100;
+                                                    int valorInt = (int) value.doubleValue();                                                    
+                                               
+                                                    Double valor3 = Double.valueOf(valorInt);                                                   
+                                            
+                                                    valor3 = valor3 / 100;  
+                                                    value = valor3;  
+                                                    cleanTerminal();
+                                                    break;
+                                                } catch (Exception e) {
+                                                    sc.next();
+                                                    System.out.println("Wrong input type.");
+                                                }
+                                            }
                                             withdraw(actualUser, value);
                                             viewAccountNumber(actualUser);
                                             viewBalance(actualUser);
@@ -225,9 +245,26 @@ public class BankSystem{
                                         
                                         case 2 -> {
                                             //Receive
-                                            cleanTerminal();
-                                            System.out.print("\nHow much would you like to receive?: ");
-                                            double value2 = sc.nextDouble();
+                                            cleanTerminal();                                            
+                                            Double value2;
+                                            while(true){
+                                                try {
+                                                    System.out.print("\nHow much would you like to receive?: ");
+                                                    value2 = sc.nextDouble();
+                                                    value2 = value2 * 100;
+                                                    int valorInt = (int) value2.doubleValue();                                                    
+                                               
+                                                    Double valor3 = Double.valueOf(valorInt);                                                   
+                                            
+                                                    valor3 = valor3 / 100;  
+                                                    value2 = valor3;                                                  
+                                                    cleanTerminal();
+                                                    break;
+                                                } catch (Exception e) {
+                                                    sc.next();
+                                                    System.out.println("Wrong input type.");
+                                                }
+                                            }
                                             receive(actualUser, value2);
                                             cleanTerminal();
                                             System.out.println("\nMoney received sucessfully! ");
